@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API Status</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.27.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@0.1.1"></script>
+
+</head>
+<body>
+        <canvas id="data-chart" height="600">
+            <p>Loading</p>
+        </canvas>
+
+
+    <script>
+        setInterval(()=>{
+            fetch('/logs')
+        .then(logs => logs.json())
+        .then(logs => {
+            renderChart(logs)
+        })
+        }, 1000)
+
+        const renderChart = logs => {
+            var chart = null
+            chart ? chart.destroy() : null
+            chart = new Chart(document.getElementById("data-chart"), {
+            type: 'scatter',
+            data: {
+                datasets: [{ 
+                    data: logs[0].requests,
+                    label: logs[0]._id,
+                    backgroundColor: 'rgba(255, 0, 0, 0.5)',
+                    fill: true,
+                    pointRadius:6,
+                    showLine:false,
+                    lineTension: false
+
+                }, { 
+                    data: logs[1].requests,
+                    label: logs[1]._id,
+                    backgroundColor: 'rgba(255,242, 0, 0.5)',
+                    fill: true,
+                    pointRadius:6,
+                    showLine:false,
+                    lineTension: false
+
+                }, { 
+                    data: logs[2].requests,
+                    label: logs[2]._id,
+                    backgroundColor: 'rgba(0, 85, 255, 0.5)',
+                    fill: true,
+                    pointRadius:6,
+                    showLine:false,
+                    lineTension: false
+
+                }, { 
+                    data: logs[3].requests,
+                    label: logs[3]._id,
+                    backgroundColor: 'rgba(217, 0, 255, 0.5)',
+                    fill: true,
+                    pointRadius:6,
+                    showLine:false,
+                    lineTension: false
+                    
+                }
+                ]
+            },
+            options: {
+                animation:{
+                    duration: 0
+                },
+                scales: {
+
+                    xAxes:[{
+                        type: 'time',        
+                        time: {
+                        unit: 'minute',
+                        unitStepSize:5,
+                        displayFormats: {
+                            minute: 'HH:mm'
+                        },
+                        tooltipFormat: 'HH:mm',
+                        min: moment().utc().subtract(1,"hour").valueOf(),
+                        max: moment().valueOf(),
+                        },
+
+                    }]
+                },
+                maintainAspectRatio: false,
+
+            }
+            }); 
+        }
+        
+
+    </script>
+</body>
+</html>

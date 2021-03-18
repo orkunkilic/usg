@@ -1,0 +1,19 @@
+{
+  "name": "kartaca",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --legacy-watch index.js"
+  },
+  "author": "Orkun Mahir Kılıç",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "kafkajs": "^1.15.0",
+    "mongoose": "^5.12.0",
+    "nodemon": "^2.0.7",
+    "response-time": "^2.3.2"
+  }
+}
