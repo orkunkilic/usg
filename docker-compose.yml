@@ -23,7 +23,7 @@ services:
     ports:
      - "2181:2181"
   kafka:
-    build: ./kafka
+    image: wurstmeister/kafka
     ports:
      - "9092:9092"
     expose:
