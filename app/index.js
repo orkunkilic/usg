@@ -25,10 +25,24 @@ const kafka = new Kafka({
 app.use(express.static('public'))
 app.get('/logs', async (req, res) => {
     Log.aggregate()
-        .match({ "timestamp": { $gte: new Date(Date.now() - 24 * 60 * 60 * 1000).valueOf() } })
+        .match({ timestamp: { $gte: new Date(Date.now() -  60 * 60 * 1000).valueOf() } })
         .group({ _id: '$method', requests: { $push: { y: '$response', x: '$timestamp' } } })
         .sort('_id')
         .then(lgs => {
+            if (lgs.find(x => x._id === 'GET') === undefined) {
+                lgs.push({_id: 'GET', requests: []})
+            }
+            if (lgs.find(x => x._id === 'POST') === undefined) {
+                lgs.push({_id: 'POST', requests: []})
+            }
+            if (lgs.find(x => x._id === 'DELETE') === undefined) {
+                lgs.push({_id: 'DELETE', requests: []})
+            }
+            if (lgs.find(x => x._id === 'PUT') === undefined) {
+                lgs.push({_id: 'PUT', requests: []})
+            }
+
+
             res.statusCode = 200;
             res.contentType('application/json')
             res.json(lgs)

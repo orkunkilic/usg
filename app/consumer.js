@@ -20,7 +20,7 @@ const consume = async () => {
             const log = new Log(data)
             log.save()
                 .then(log => {
-                console.log('OK')
+                    console.log(log)
             })
     },
     })

@@ -10,7 +10,7 @@ services:
 
   app:
    build: ./app
-   container_name: kartaca-app
+   container_name: kartaca-server
    ports:
     - 3000:3000
    volumes:

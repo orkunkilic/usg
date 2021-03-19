@@ -17,58 +17,40 @@
 
 
     <script>
+        const colorCodes = {
+            'GET': 'rgba(255, 0, 0, 0.5)',
+            'POST': 'rgba(255,242, 0, 0.5)',
+            'PUT': 'rgba(0, 85, 255, 0.5)',
+            'DELETE': 'rgba(217, 0, 255, 0.5)',
+
+        }
+        var chart = null
         setInterval(()=>{
             fetch('/logs')
         .then(logs => logs.json())
         .then(logs => {
-            renderChart(logs)
+            const datasets = []
+            logs.forEach(x => {
+                datasets.push({
+                    data: x.requests,
+                    label: x._id,
+                    backgroundColor: colorCodes[x._id],
+                    fill: true,
+                    pointRadius:6,
+                    showLine:false,
+                    lineTension: false
+                })
+            })
+            renderChart(datasets)
         })
         }, 1000)
 
-        const renderChart = logs => {
-            var chart = null
+        const renderChart = datasets => {
             chart ? chart.destroy() : null
             chart = new Chart(document.getElementById("data-chart"), {
             type: 'scatter',
             data: {
-                datasets: [{ 
-                    data: logs[0].requests,
-                    label: logs[0]._id,
-                    backgroundColor: 'rgba(255, 0, 0, 0.5)',
-                    fill: true,
-                    pointRadius:6,
-                    showLine:false,
-                    lineTension: false
-
-                }, { 
-                    data: logs[1].requests,
-                    label: logs[1]._id,
-                    backgroundColor: 'rgba(255,242, 0, 0.5)',
-                    fill: true,
-                    pointRadius:6,
-                    showLine:false,
-                    lineTension: false
-
-                }, { 
-                    data: logs[2].requests,
-                    label: logs[2]._id,
-                    backgroundColor: 'rgba(0, 85, 255, 0.5)',
-                    fill: true,
-                    pointRadius:6,
-                    showLine:false,
-                    lineTension: false
-
-                }, { 
-                    data: logs[3].requests,
-                    label: logs[3]._id,
-                    backgroundColor: 'rgba(217, 0, 255, 0.5)',
-                    fill: true,
-                    pointRadius:6,
-                    showLine:false,
-                    lineTension: false
-                    
-                }
-                ]
+                datasets: datasets
             },
             options: {
                 animation:{
