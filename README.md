@@ -8,3 +8,7 @@
 - **docker-compose up --build** komudu çalıştırılarak NodeJS Server, MongoDB, Kafka ve Zookeeper servisleri aktive edilir.
 - localhost:3000 portu üzerinden / adresinde dashboard görüntülenebilir.
 - localhost:3000 portu üzerinden /api adresine yapılan istekler (GET, POST, PUT, DELETE) geçerli ve kaydedilen isteklerdir.
+
+- Solution klasöründe **python main.py** komutu yapıldığında çözüm konsol ekranına basılmış olacaktır.
+
+
